@@ -160,5 +160,13 @@ public class Agenda {
         contactos[indice].setTelefono(nuevoTelefono);
         System.out.println("Teléfono modificado correctamente");
     }
+    public int espacioLibres() {
+
+        int espacios = contactos.length - cantidadActual;
+
+        System.out.println("Espacios disponibles en la agenda: " + espacios);
+
+        return espacios;
+    }
 
 }
