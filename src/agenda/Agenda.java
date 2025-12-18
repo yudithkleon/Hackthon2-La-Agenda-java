@@ -28,7 +28,7 @@ public class Agenda {
 
     public boolean añadirContacto(Contacto c) {
 
-        if (c.getNombre().isEmpty() || c.getApellido().isEmpty()) {
+        if (c.getNombre().isEmpty() && c.getApellido().isEmpty()) {
             System.out.println("No se puede agregar el contacto: nombre o apellido vacío");
             return false;
         }
@@ -48,6 +48,20 @@ public class Agenda {
 
         System.out.println("Contacto agregado correctamente");
         return true;
+    }
+
+    public void listarContactos() {
+
+        if (cantidadActual == 0) {
+            System.out.println("La agenda está vacía");
+            return;
+        }
+
+        System.out.println("LISTA DE CONTACTOS:");
+
+        for (int i = 0; i < cantidadActual; i++) {
+            contactos[i].mostrarContacto();
+        }
     }
 
 
