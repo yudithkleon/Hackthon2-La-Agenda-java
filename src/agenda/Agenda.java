@@ -57,6 +57,8 @@ public class Agenda {
             return;
         }
 
+        ordenarContactos();
+
         System.out.println("LISTA DE CONTACTOS:");
 
         for (int i = 0; i < cantidadActual; i++) {
@@ -64,5 +66,62 @@ public class Agenda {
         }
     }
 
+    private void ordenarContactos() {
+
+        for (int i = 0; i < cantidadActual - 1; i++) {
+            for (int j = 0; j < cantidadActual - 1 - i; j++) {
+
+                Contacto actual = contactos[j];
+                Contacto siguiente = contactos[j + 1];
+
+                int comparacionNombre = actual.getNombre()
+                        .compareToIgnoreCase(siguiente.getNombre());
+
+                boolean cambiar = false;
+
+                if (comparacionNombre > 0) {
+                    cambiar = true;
+                } else if (comparacionNombre == 0) {
+                    int comparacionApellido = actual.getApellido()
+                            .compareToIgnoreCase(siguiente.getApellido());
+
+                    if (comparacionApellido > 0) {
+                        cambiar = true;
+                    }
+                }
+
+                if (cambiar) {
+                    contactos[j] = siguiente;
+                    contactos[j + 1] = actual;
+                }
+            }
+        }
+    }
+
+    public void buscaContacto(String nombre, String apellido) {
+
+        if (cantidadActual == 0) {
+            System.out.println("La agenda está vacía");
+            return;
+        }
+
+        for (int i = 0; i < cantidadActual; i++) {
+            Contacto actual = contactos[i];
+
+            if (actual.getNombre().equalsIgnoreCase(nombre)
+                    && actual.getApellido().equalsIgnoreCase(apellido)) {
+
+                System.out.println("Contacto encontrado:");
+                System.out.println(
+                        actual.getNombre() + " " +
+                                actual.getApellido() + " - " +
+                                actual.getTelefono()
+                );
+                return;
+            }
+        }
+
+        System.out.println("Contacto no encontrado");
+    }
 
 }

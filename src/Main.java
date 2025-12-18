@@ -33,6 +33,14 @@ public class Main {
 
         agenda.listarContactos();
 
+        System.out.println("Buscar contacto:");
+        System.out.print("Nombre: ");
+        String nombreBuscar = scanner.nextLine();
+
+        System.out.print("Apellido: ");
+        String apellidoBuscar = scanner.nextLine();
+
+        agenda.buscaContacto(nombreBuscar, apellidoBuscar);
 
 
     }
