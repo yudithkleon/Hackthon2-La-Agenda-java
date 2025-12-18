@@ -8,6 +8,7 @@ public class Main {
         System.out.println("Hello and welcome A mi segundo Hackathon!");
 
         Contacto contactoNuevo = new Contacto("Yudith", "Leon", "3007706748");
+        contactoNuevo.mostrarContacto();
         Agenda agendita = new Agenda();
     }
 }

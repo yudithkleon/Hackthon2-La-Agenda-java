@@ -13,5 +13,10 @@ public class Contacto {
         System.out.println("El contacto se Creo yupiiii...");
 
     }
+    public void mostrarContacto() {
+        System.out.println(
+                nombre + " " + apellido + " - " + telefono
+        );
+    }
 
 }
