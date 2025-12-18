@@ -6,9 +6,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Contacto[] contactos = new Contacto[3];
+        Agenda agenda = new Agenda(3);
 
-        for (int i = 0; i < contactos.length; i++) {
+        for (int i = 0; i < 3; i++) {
 
             System.out.println("Ingrese el nombre:");
             String nombre = scanner.nextLine();
@@ -19,18 +19,19 @@ public class Main {
             System.out.println("Ingrese el telefono:");
             String telefono = scanner.nextLine();
 
-            contactos[i] = new Contacto(nombre, apellido, telefono);
+            Contacto contacto = new Contacto(nombre, apellido, telefono);
 
-            System.out.println("Contacto guardado\n");
+            boolean agregado = agenda.añadirContacto(contacto);
+
+            if (agregado) {
+                System.out.println("Contacto guardado\n");
+            } else {
+                System.out.println("El contacto NO fue guardado\n");
+            }
+            System.out.println();
         }
 
 
-        System.out.println("LISTA DE CONTACTOS:");
 
-        for (Contacto contacto : contactos) {
-            contacto.mostrarContacto();
-        }
-
-        Agenda agendita = new Agenda();
     }
 }
