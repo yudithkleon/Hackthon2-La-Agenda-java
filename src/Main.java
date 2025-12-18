@@ -1,12 +1,14 @@
 import agenda.Agenda;
 import agenda.Contacto;
+import ui.MostrarAgenda;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Agenda agenda = new Agenda(3);
+        Agenda agenda = new Agenda(15);
+        new MostrarAgenda();
 
         int opcion;
 
@@ -18,7 +20,7 @@ public class Main {
             System.out.println("4. Eliminar contacto");
             System.out.println("5. Modificar teléfono");
             System.out.println("6. Ver espacios disponibles");
-            System.out.println("0. Salir");
+            System.out.println("7. Salir");
             System.out.print("Seleccione una opción: ");
 
             opcion = Integer.parseInt(scanner.nextLine());
@@ -88,7 +90,7 @@ public class Main {
                     agenda.espacioLibres();
                     break;
 
-                case 0:
+                case 7:
                     System.out.println("Saliendo de la agenda...");
                     break;
 
@@ -96,7 +98,7 @@ public class Main {
                     System.out.println("Opción inválida");
             }
 
-        } while (opcion != 0);
+        } while (opcion != 7);
 
         scanner.close();
     }
