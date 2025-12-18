@@ -1,14 +1,36 @@
 import agenda.Agenda;
 import agenda.Contacto;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.println("Hello and welcome A mi segundo Hackathon!");
+        Scanner scanner = new Scanner(System.in);
+        Contacto[] contactos = new Contacto[3];
 
-        Contacto contactoNuevo = new Contacto("Yudith", "Leon", "3007706748");
-        contactoNuevo.mostrarContacto();
+        for (int i = 0; i < contactos.length; i++) {
+
+            System.out.println("Ingrese el nombre:");
+            String nombre = scanner.nextLine();
+
+            System.out.println("Ingrese el apellido:");
+            String apellido = scanner.nextLine();
+
+            System.out.println("Ingrese el telefono:");
+            String telefono = scanner.nextLine();
+
+            contactos[i] = new Contacto(nombre, apellido, telefono);
+
+            System.out.println("Contacto guardado\n");
+        }
+
+
+        System.out.println("LISTA DE CONTACTOS:");
+
+        for (Contacto contacto : contactos) {
+            contacto.mostrarContacto();
+        }
+
         Agenda agendita = new Agenda();
     }
 }
