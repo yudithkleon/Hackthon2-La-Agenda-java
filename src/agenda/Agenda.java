@@ -124,4 +124,59 @@ public class Agenda {
         System.out.println("Contacto no encontrado");
     }
 
+    public void eliminarContacto(Contacto c) {
+
+        if (cantidadActual == 0) {
+            System.out.println("La agenda está vacía");
+            return;
+        }
+
+        for (int i = 0; i < cantidadActual; i++) {
+            Contacto actual = contactos[i];
+
+            if (actual.getNombre().equalsIgnoreCase(c.getNombre())
+                    && actual.getApellido().equalsIgnoreCase(c.getApellido())) {
+
+                // Correr los contactos hacia la izquierda
+                for (int j = i; j < cantidadActual - 1; j++) {
+                    contactos[j] = contactos[j + 1];
+                }
+
+                contactos[cantidadActual - 1] = null;
+                cantidadActual--;
+
+                System.out.println("Contacto eliminado correctamente");
+                return;
+            }
+        }
+
+        System.out.println("No se pudo eliminar, el contacto no existe");
+    }
+    public void modificarTelefono(String nombre, String apellido, String nuevoTelefono)  {
+
+        if (cantidadActual == 0) {
+            System.out.println("La agenda está vacía");
+            return;
+        }
+
+        if (nuevoTelefono.isEmpty()) {
+            System.out.println("El teléfono no puede estar vacío");
+            return;
+        }
+
+        for (int i = 0; i < cantidadActual; i++) {
+            Contacto actual = contactos[i];
+
+            if (actual.getNombre().equalsIgnoreCase(nombre)
+                    && actual.getApellido().equalsIgnoreCase(apellido)) {
+
+                actual.setTelefono(nuevoTelefono);
+                System.out.println("Teléfono modificado correctamente");
+                return;
+            }
+        }
+
+        System.out.println("No se pudo modificar, el contacto no existe");
+    }
+
 }

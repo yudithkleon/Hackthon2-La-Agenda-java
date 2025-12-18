@@ -43,5 +43,30 @@ public class Main {
         agenda.buscaContacto(nombreBuscar, apellidoBuscar);
 
 
+        System.out.println("\nEliminar contacto");
+        System.out.print("Nombre: ");
+        String nombreEliminar = scanner.nextLine();
+
+        System.out.print("Apellido: ");
+        String apellidoEliminar = scanner.nextLine();
+
+        Contacto contactoEliminar = new Contacto(nombreEliminar, apellidoEliminar, "");
+
+        agenda.eliminarContacto(contactoEliminar);
+        System.out.println("\nModificar teléfono");
+        System.out.print("Nombre: ");
+        String nombreModificar = scanner.nextLine();
+
+        System.out.print("Apellido: ");
+        String apellidoModificar = scanner.nextLine();
+
+        System.out.print("Nuevo teléfono: ");
+        String nuevoTelefono = scanner.nextLine();
+
+        agenda.modificarTelefono(nombreModificar, apellidoModificar, nuevoTelefono);
+
+
     }
+
+
 }

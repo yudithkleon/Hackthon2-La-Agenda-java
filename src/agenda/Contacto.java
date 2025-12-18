@@ -21,6 +21,10 @@ public class Contacto {
     public String getTelefono() {
         return telefono;
     }
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public void mostrarContacto() {
         System.out.println(
                 nombre + " " + apellido + " - " + telefono
