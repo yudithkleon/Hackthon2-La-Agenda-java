@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Agenda agenda = new Agenda(15);
+       Scanner scanner = new Scanner(System.in);
+       Agenda agenda = new Agenda(15);
         new MostrarAgenda();
 
         int opcion;

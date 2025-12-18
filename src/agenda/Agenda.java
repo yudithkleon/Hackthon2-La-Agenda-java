@@ -169,4 +169,28 @@ public class Agenda {
         return espacios;
     }
 
+    //--Para rendirizar en la view
+    public String listarContactosTexto() {
+
+        if (cantidadActual == 0) {
+            return "La agenda está vacía";
+        }
+
+        ordenarContactos();
+
+        StringBuilder sb = new StringBuilder("LISTA DE CONTACTOS:\n\n");
+
+        for (int i = 0; i < cantidadActual; i++) {
+            Contacto c = contactos[i];
+            sb.append(c.getNombre())
+                    .append(" ")
+                    .append(c.getApellido())
+                    .append(" - ")
+                    .append(c.getTelefono())
+                    .append("\n");
+        }
+
+        return sb.toString();
+    }
+
 }
