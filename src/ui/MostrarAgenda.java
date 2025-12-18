@@ -15,8 +15,8 @@ public class MostrarAgenda extends JFrame {
     private JTextArea areaSalida;
 
 
-    public MostrarAgenda() {
-        agenda = new Agenda(15);
+    public MostrarAgenda( Agenda agenda) {
+        this.agenda = agenda;
 
         setTitle("📒 Agenda de Contactos");
         setSize(700, 550);
@@ -96,10 +96,6 @@ public class MostrarAgenda extends JFrame {
 
 
         //Llamando a la lógica
-        btnListar.addActionListener(e -> {
-            areaSalida.setText(agenda.listarContactosTexto());
-        });
-
         btnAgregar.addActionListener(e -> {
             Contacto c = new Contacto(
                     txtNombre.getText().trim(),
@@ -107,12 +103,12 @@ public class MostrarAgenda extends JFrame {
                     txtTelefono.getText().trim()
             );
 
-            boolean ok = agenda.añadirContacto(c);
+            String resultado = agenda.añadirContactoTexto(c);
 
-            if (ok) {
+            if (resultado.equals("Contacto agregado correctamente")) {
                 JOptionPane.showMessageDialog(
                         this,
-                        "Contacto agregado correctamente ✅",
+                        resultado,
                         "Éxito",
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -121,12 +117,13 @@ public class MostrarAgenda extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(
                         this,
-                        "No se pudo agregar el contacto ❌",
+                        resultado,
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );
             }
         });
+
 
         btnBuscar.addActionListener(e -> {
             String nombre = txtNombre.getText().trim();
@@ -162,9 +159,18 @@ public class MostrarAgenda extends JFrame {
             }
 
             String resultado = agenda.eliminarContactoTexto(nombre, apellido);
-            areaSalida.setText(resultado + "\n\n" + agenda.listarContactosTexto());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    resultado,
+                    "Resultado",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            areaSalida.setText(agenda.listarContactosTexto());
             limpiarCampos();
         });
+
 
 
         btnModificar.addActionListener(e -> {
@@ -190,6 +196,7 @@ public class MostrarAgenda extends JFrame {
         btnListar.addActionListener(e -> {
             areaSalida.setText(agenda.listarContactosTexto());
         });
+
 
         btnEspacios.addActionListener(e ->
 

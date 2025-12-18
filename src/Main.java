@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-       Scanner scanner = new Scanner(System.in);
-       Agenda agenda = new Agenda(15);
-        new MostrarAgenda();
+      Agenda agenda = new Agenda(15);
+        new MostrarAgenda(agenda);
 
+/*     Scanner scanner = new Scanner(System.in);
         int opcion;
 
         do {
@@ -39,9 +39,7 @@ public class Main {
 
                     Contacto nuevo = new Contacto(nombre, apellido, telefono);
                     agenda.añadirContacto(nuevo);
-
-
-                break;
+                    break;
 
                 case 2:
                     //listar
@@ -101,8 +99,6 @@ public class Main {
         } while (opcion != 7);
 
         scanner.close();
+*/
     }
-
-
-
 }
