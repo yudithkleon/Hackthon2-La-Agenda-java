@@ -8,33 +8,39 @@ public class Agenda {
         contactos = new Contacto[tamMaximo];
         cantidadActual = 0;
     }
+
     public boolean agendaLlena() {
         return cantidadActual >= contactos.length;
     }
 
-    public boolean existeContacto(Contacto nuevo) {
+    public boolean existeContacto(Contacto c) {
+        return buscarIndiceContacto(c.getNombre(), c.getApellido()) != -1;
+    }
+
+    private int buscarIndiceContacto(String nombre, String apellido) {
 
         for (int i = 0; i < cantidadActual; i++) {
             Contacto actual = contactos[i];
 
-            if (actual.getNombre().equalsIgnoreCase(nuevo.getNombre())
-                    && actual.getApellido().equalsIgnoreCase(nuevo.getApellido())) {
-                return true;
+            if (actual.getNombre().equalsIgnoreCase(nombre)
+                    && actual.getApellido().equalsIgnoreCase(apellido)) {
+                return i;
             }
         }
 
-        return false;
+        return -1;
     }
+
 
     public boolean añadirContacto(Contacto c) {
 
-        if (c.getNombre().isEmpty() && c.getApellido().isEmpty()) {
+        if (c.getNombre().isEmpty() || c.getApellido().isEmpty()) {
             System.out.println("No se puede agregar el contacto: nombre o apellido vacío");
             return false;
         }
 
         if (agendaLlena()) {
-            System.out.println("No se puede agregar el contacto: la agenda está llena");
+            System.out.println("La agenda está llena. No hay espacio disponible.");
             return false;
         }
 
@@ -105,78 +111,54 @@ public class Agenda {
             return;
         }
 
-        for (int i = 0; i < cantidadActual; i++) {
-            Contacto actual = contactos[i];
+        int indice = buscarIndiceContacto(nombre, apellido);
 
-            if (actual.getNombre().equalsIgnoreCase(nombre)
-                    && actual.getApellido().equalsIgnoreCase(apellido)) {
-
-                System.out.println("Contacto encontrado:");
-                System.out.println(
-                        actual.getNombre() + " " +
-                                actual.getApellido() + " - " +
-                                actual.getTelefono()
-                );
-                return;
-            }
+        if (indice == -1) {
+            System.out.println("Contacto no encontrado");
+            return;
         }
 
-        System.out.println("Contacto no encontrado");
+        Contacto c = contactos[indice];
+        System.out.println("Contacto encontrado:");
+        System.out.println(c.getNombre() + " " + c.getApellido() + " - " + c.getTelefono());
     }
 
     public void eliminarContacto(Contacto c) {
 
-        if (cantidadActual == 0) {
-            System.out.println("La agenda está vacía");
+        int indice = buscarIndiceContacto(c.getNombre(), c.getApellido());
+
+        if (indice == -1) {
+            System.out.println("No se pudo eliminar, el contacto no existe");
             return;
         }
 
-        for (int i = 0; i < cantidadActual; i++) {
-            Contacto actual = contactos[i];
-
-            if (actual.getNombre().equalsIgnoreCase(c.getNombre())
-                    && actual.getApellido().equalsIgnoreCase(c.getApellido())) {
-
-                // Correr los contactos hacia la izquierda
-                for (int j = i; j < cantidadActual - 1; j++) {
-                    contactos[j] = contactos[j + 1];
-                }
-
-                contactos[cantidadActual - 1] = null;
-                cantidadActual--;
-
-                System.out.println("Contacto eliminado correctamente");
-                return;
-            }
+        for (int i = indice; i < cantidadActual - 1; i++) {
+            contactos[i] = contactos[i + 1];
         }
 
-        System.out.println("No se pudo eliminar, el contacto no existe");
+        contactos[cantidadActual - 1] = null;
+        cantidadActual--;
+
+        System.out.println("Contacto eliminado correctamente");
     }
-    public void modificarTelefono(String nombre, String apellido, String nuevoTelefono)  {
 
-        if (cantidadActual == 0) {
-            System.out.println("La agenda está vacía");
-            return;
-        }
+
+    public void modificarTelefono(String nombre, String apellido, String nuevoTelefono) {
 
         if (nuevoTelefono.isEmpty()) {
             System.out.println("El teléfono no puede estar vacío");
             return;
         }
 
-        for (int i = 0; i < cantidadActual; i++) {
-            Contacto actual = contactos[i];
+        int indice = buscarIndiceContacto(nombre, apellido);
 
-            if (actual.getNombre().equalsIgnoreCase(nombre)
-                    && actual.getApellido().equalsIgnoreCase(apellido)) {
-
-                actual.setTelefono(nuevoTelefono);
-                System.out.println("Teléfono modificado correctamente");
-                return;
-            }
+        if (indice == -1) {
+            System.out.println("No se pudo modificar, el contacto no existe");
+            return;
         }
 
-        System.out.println("No se pudo modificar, el contacto no existe");
+        contactos[indice].setTelefono(nuevoTelefono);
+        System.out.println("Teléfono modificado correctamente");
     }
 
 }
