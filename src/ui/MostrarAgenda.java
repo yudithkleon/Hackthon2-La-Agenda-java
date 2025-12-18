@@ -6,7 +6,7 @@ import agenda.Contacto;
 import javax.swing.*;
 import java.awt.*;
 
-public class MostrarAgenda extends JFrame  {
+public class MostrarAgenda extends JFrame {
     private Agenda agenda;
 
     private JTextField txtNombre;
@@ -17,6 +17,7 @@ public class MostrarAgenda extends JFrame  {
 
     public MostrarAgenda() {
         agenda = new Agenda(15);
+
         setTitle("📒 Agenda de Contactos");
         setSize(700, 550);
         setLocationRelativeTo(null);
@@ -28,6 +29,7 @@ public class MostrarAgenda extends JFrame  {
 
 
     }
+
     private void crearInterfaz() {
 
         setLayout(new BorderLayout());
@@ -38,7 +40,13 @@ public class MostrarAgenda extends JFrame  {
         add(titulo, BorderLayout.NORTH);
 
         JPanel panelFormulario = new JPanel(new GridLayout(3, 2, 10, 10));
-        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del contacto"));
+        panelFormulario.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createTitledBorder("Datos del contacto"),
+                        BorderFactory.createEmptyBorder(15, 15, 15, 15)
+                )
+        );
+
 
         panelFormulario.add(new JLabel("Nombre:"));
         txtNombre = new JTextField();
@@ -52,8 +60,12 @@ public class MostrarAgenda extends JFrame  {
         txtTelefono = new JTextField();
         panelFormulario.add(txtTelefono);
 
-        add(panelFormulario, BorderLayout.CENTER);
+        //Ajsutemos el tamaño de los inputs
+        txtNombre = new JTextField(15);
+        txtApellido = new JTextField(15);
+        txtTelefono = new JTextField(15);
 
+        add(panelFormulario, BorderLayout.CENTER);
 
         JPanel panelBotones = new JPanel(new GridLayout(2, 3, 10, 10));
 
@@ -81,6 +93,9 @@ public class MostrarAgenda extends JFrame  {
         JPanel panelInferior = new JPanel(new BorderLayout());
         panelInferior.add(panelBotones, BorderLayout.NORTH);
         panelInferior.add(scroll, BorderLayout.CENTER);
+        panelInferior.setBorder(
+                BorderFactory.createEmptyBorder(10, 15, 15, 15)
+        );
 
         add(panelInferior, BorderLayout.SOUTH);
 
@@ -90,7 +105,85 @@ public class MostrarAgenda extends JFrame  {
             areaSalida.setText(agenda.listarContactosTexto());
         });
 
+        btnAgregar.addActionListener(e -> {
+            Contacto c = new Contacto(
+                    txtNombre.getText().trim(),
+                    txtApellido.getText().trim(),
+                    txtTelefono.getText().trim()
+            );
+
+            boolean ok = agenda.añadirContacto(c);
+
+            if (ok) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Contacto agregado correctamente ✅",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                limpiarCampos();
+                areaSalida.setText(agenda.listarContactosTexto());
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No se pudo agregar el contacto ❌",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        });
+
+        btnBuscar.addActionListener(e -> {
+            String nombre = txtNombre.getText().trim();
+            String apellido = txtApellido.getText().trim();
+
+            if (nombre.isEmpty() || apellido.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Ingrese nombre y apellido",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            areaSalida.setText("");
+            agenda.buscaContacto(nombre, apellido);
+            areaSalida.setText(agenda.listarContactosTexto());
+        });
+
+
+        btnModificar.addActionListener(e ->
+
+        {
+            agenda.modificarTelefono(
+                    txtNombre.getText(),
+                    txtApellido.getText(),
+                    txtTelefono.getText()
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Teléfono actualizado ✏",
+                    "Actualizado",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            limpiarCampos();
+            areaSalida.setText(agenda.listarContactosTexto());
+        });
+
+        btnEspacios.addActionListener(e ->
+
+        {
+            int espacios = agenda.espacioLibres();
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Espacios disponibles: " + espacios,
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
     }
+
 
     private void limpiarCampos() {
         txtNombre.setText("");
