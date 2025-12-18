@@ -60,15 +60,10 @@ public class MostrarAgenda extends JFrame {
         txtTelefono = new JTextField();
         panelFormulario.add(txtTelefono);
 
-        //Ajsutemos el tamaño de los inputs
-        txtNombre = new JTextField(15);
-        txtApellido = new JTextField(15);
-        txtTelefono = new JTextField(15);
-
         add(panelFormulario, BorderLayout.CENTER);
 
-        JPanel panelBotones = new JPanel(new GridLayout(2, 3, 10, 10));
-
+        JPanel panelBotones = new JPanel(new GridLayout(2, 4, 10, 10));
+        JButton btnLimpiar = new JButton("🧹 Limpiar");
         JButton btnAgregar = new JButton("➕ Añadir");
         JButton btnBuscar = new JButton("🔍 Buscar");
         JButton btnEliminar = new JButton("🗑 Eliminar");
@@ -82,7 +77,7 @@ public class MostrarAgenda extends JFrame {
         panelBotones.add(btnModificar);
         panelBotones.add(btnListar);
         panelBotones.add(btnEspacios);
-
+        panelBotones.add(btnLimpiar);
 
         areaSalida = new JTextArea();
         areaSalida.setEditable(false);
@@ -138,36 +133,61 @@ public class MostrarAgenda extends JFrame {
             String apellido = txtApellido.getText().trim();
 
             if (nombre.isEmpty() || apellido.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(
+                        this,
                         "Ingrese nombre y apellido",
                         "Advertencia",
-                        JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.WARNING_MESSAGE
+                );
                 return;
             }
 
-            areaSalida.setText("");
-            agenda.buscaContacto(nombre, apellido);
-            areaSalida.setText(agenda.listarContactosTexto());
+            areaSalida.setText(
+                    agenda.buscarContactoTexto(nombre, apellido)
+            );
+        });
+
+        btnEliminar.addActionListener(e -> {
+            String nombre = txtNombre.getText().trim();
+            String apellido = txtApellido.getText().trim();
+
+            if (nombre.isEmpty() || apellido.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ingrese nombre y apellido",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            String resultado = agenda.eliminarContactoTexto(nombre, apellido);
+            areaSalida.setText(resultado + "\n\n" + agenda.listarContactosTexto());
+            limpiarCampos();
         });
 
 
-        btnModificar.addActionListener(e ->
+        btnModificar.addActionListener(e -> {
+            String nombre = txtNombre.getText().trim();
+            String apellido = txtApellido.getText().trim();
+            String telefono = txtTelefono.getText().trim();
 
-        {
-            agenda.modificarTelefono(
-                    txtNombre.getText(),
-                    txtApellido.getText(),
-                    txtTelefono.getText()
-            );
+            if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ingrese nombre, apellido y teléfono",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Teléfono actualizado ✏",
-                    "Actualizado",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
+            String resultado = agenda.modificarTelefonoTexto(nombre, apellido, telefono);
+            areaSalida.setText(resultado + "\n\n" + agenda.listarContactosTexto());
             limpiarCampos();
+        });
+
+        btnListar.addActionListener(e -> {
             areaSalida.setText(agenda.listarContactosTexto());
         });
 
@@ -182,6 +202,11 @@ public class MostrarAgenda extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
         });
+        btnLimpiar.addActionListener(e -> {
+            limpiarCampos();
+            areaSalida.setText("");
+        });
+
     }
 
 

@@ -192,5 +192,55 @@ public class Agenda {
 
         return sb.toString();
     }
+/// ---------para renderizar en la ui
+public String buscarContactoTexto(String nombre, String apellido) {
+    if (cantidadActual == 0) {
+        return "La agenda está vacía";
+    }
+
+    int indice = buscarIndiceContacto(nombre, apellido);
+
+    if (indice == -1) {
+        return "Contacto no encontrado";
+    }
+
+    Contacto c = contactos[indice];
+    return "Contacto encontrado:\n\n"
+            + c.getNombre() + " "
+            + c.getApellido() + " - "
+            + c.getTelefono();
+}
+
+    public String eliminarContactoTexto(String nombre, String apellido) {
+        int indice = buscarIndiceContacto(nombre, apellido);
+
+        if (indice == -1) {
+            return "No se pudo eliminar: contacto no existe";
+        }
+
+        for (int i = indice; i < cantidadActual - 1; i++) {
+            contactos[i] = contactos[i + 1];
+        }
+
+        contactos[cantidadActual - 1] = null;
+        cantidadActual--;
+
+        return "Contacto eliminado correctamente";
+    }
+
+    public String modificarTelefonoTexto(String nombre, String apellido, String telefono) {
+        if (telefono.isEmpty()) {
+            return "El teléfono no puede estar vacío";
+        }
+
+        int indice = buscarIndiceContacto(nombre, apellido);
+
+        if (indice == -1) {
+            return "No se pudo modificar: contacto no existe";
+        }
+
+        contactos[indice].setTelefono(telefono);
+        return "Teléfono actualizado correctamente";
+    }
 
 }
